@@ -1,0 +1,54 @@
+#!/usr/bin/python
+import random
+import os.path
+
+# variable assignments
+vals = []
+y = ["some-text"]
+fields = 0
+yesorno = ''
+
+# get the field values...
+while y:
+    try:
+        y = input("Enter field "+str(fields+1)+" values, like: [val1, val2, val3, ... , valn] ~> ")
+    except:
+        y = []
+        print "Taking above input as empty list '[]' \nNOTE: string should be enclosed in single/double quotes...\n"
+    vals.append(y)
+    fields += 1
+del vals[-1]
+fields -= 1
+
+# get the number of rows needed
+try:
+    rows = input("Enter number of rows ~> ")
+except:
+    print "Rows should be an integer"
+    exit(0)
+
+# get the filename and path
+try:
+    filename = input("Enter file path, like: \"/home/jophine/kaka.txt\" ~> ")
+
+    # check if file already exists
+    if os.path.isfile(filename):
+        yesorno = raw_input("'%s' already exists, do you want to replace it (y/n) ~> " % filename)
+        if not yesorno.lower() in ['y', 'yes']:
+            raise SystemExit
+except SystemExit:
+    print "Bye bye"
+except:
+    print "Enter file path within double/single quotes"
+    exit(0)
+
+
+# generate file and save it
+f = open(filename, 'w')
+for x in range(0, rows):
+    for z in range(0, fields):
+        f.write(str(random.choice(vals[z])))
+        if z != fields-1:
+            f.write(':')
+    f.write("\n")
+f.close()
